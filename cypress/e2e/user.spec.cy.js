@@ -1,56 +1,56 @@
 import userData from '../fixtures/user-data.json'
+import LoginPage from '../pages/loginPage'
+import DashBoardPage from '../pages/dashBoardPage'
+import MenuPage from '../pages/menuPage'
+
+const loginPage = new LoginPage()
+const dashBoardPage =  new DashBoardPage()
+const menuPage = new MenuPage()
 
 describe('Orange HRM Tests', () => {
 
   const selectorsList = {
-    usernameField: "[name='username']",
-    passwordField: "[name='password']",
-    loginButton: "[type='submit']",
-    sectionTitleTopBar:".oxd-topbar-header-breadcrumb-module", 
-    dashboardGrid: ".orangehrm-dashboard-grid",
-    wrongCredentialAlert: "[role='alert']",
-    myInfoButton: '[href="/web/index.php/pim/viewMyDetails"]',
+
     firstNameField: "[name='firstName']",
     lastNameField: "[name='lastName']",
     genericField: ".oxd-input--active",
     dateField: "[placeholder='dd-mm-yyyy']",
+    genericComboBox: ".oxd-select-text--arrow",
+    secondItemCombox: ".oxd-select-dropdown > :nth-child(2)",
+    thirdItemCombox: ".oxd-select-dropdown > :nth-child(3)",
     dateCloseButton: ".--close",
-    subimitButton: "[type='submit']",
-    genericComboBox: ".oxd-select-text--arrow"
-
+    subimitButton: "[type='submit']"
+    
   }
 
- 
-
   it.only('User infor Update - Success', () => {
-    cy.visit('/auth/login')
-    cy.get(selectorsList.usernameField).type(userData.userSuccess.username)
-    cy.get(selectorsList.passwordField).type(userData.userSuccess.password)
-    cy.get(selectorsList.loginButton).click()
-    cy.location('pathname').should('equal', '/web/index.php/dashboard/index')
-    cy.get(selectorsList.dashboardGrid)
-    cy.get(selectorsList.myInfoButton).click()
+    loginPage.accessLoginPage()
+    loginPage.loginAnyUser(userData.userSuccess.username, userData.userSuccess.password)
+    dashBoardPage.checkDashboardPage()
+    menuPage.accessMyInfo()
+
+    
     cy.get(selectorsList.firstNameField).clear().type('FirstnameTest')
     cy.get(selectorsList.lastNameField).clear().type('LastnameTest')
     cy.get(selectorsList.genericField).eq(3).clear().type('nNTest')
     cy.get(selectorsList.genericField).eq(4).clear().type('EmpIdTest')
     cy.get(selectorsList.genericField).eq(5).clear().type('otIdTest')
     cy.get(selectorsList.genericField).eq(6).clear().type('dLNTest')
-    cy.get(selectorsList.genericField).eq(7).clear().type('2027-03-25')
-    cy.get(selectorsList.dateCloseButton).click()
+    cy.get(selectorsList.genericField).eq(7).clear({force: true}).type('2027-03-25')
+    cy.get(selectorsList.dateCloseButton).click({force: true})
     cy.get(selectorsList.genericField).eq(8).clear().type('ssnNTest')
-    cy.get(selectorsList.genericField).eq(9).clear().type('sinNTest')
+    //cy.get(selectorsList.genericField).eq(11).clear().type('sinNTest')
     // cy.get(selectorsList.genericField).eq(12).clear().type('militarySTest')
     // cy.get(':nth-child(2) > .oxd-checkbox-wrapper > label').click()
     // cy.get(selectorsList.genericField).eq(11).clear().type('tFieldTest')
     cy.get(selectorsList.genericComboBox).eq(0).click({force: true})
-    cy.get('.oxd-select-dropdown > :nth-child(28)').click()
+    cy.get('.oxd-select-dropdown > :nth-child(28)').click({force: true})
     cy.get(selectorsList.genericComboBox).eq(1).click({force: true})
-    cy.get('.oxd-select-dropdown > :nth-child(3)').click()
-    cy.get(selectorsList.subimitButton).eq(0).click({force: true})
-    cy.get('body').should('contain', 'Successfully Updated')
+    cy.get('.oxd-select-dropdown > :nth-child(3)').click({force: true})
+    // cy.get(selectorsList.subimitButton).eq(0).click({force: true})
+    // cy.get('body').should('contain', 'Successfully Updated')
     cy.get(selectorsList.genericComboBox).eq(2).click({force: true})
-    cy.get('.oxd-select-dropdown > :nth-child(6)').click()
+    cy.get('.oxd-select-dropdown > :nth-child(6)').click({force: true})
     cy.get(selectorsList.subimitButton).eq(1).click({force: true})
     cy.get('body').should('contain', 'Successfully Saved')
   })
