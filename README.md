@@ -1,6 +1,6 @@
 # My Cypress Automation
 
-This project utilizes Cypress to automate the testing of a login feature and a user update feature. Cypress is a JavaScript-based end-to-end testing framework that allows developers to write test and execute them a real browser.
+This project employs Cypress, a JavaScript-based end-to-end testing framework, to automate the testing of a login feature and a user profile update feature. Cypress enables the execution of tests in a real browser environment, ensuring reliable and efficient validation of user interactions and system functionality.
 
 
 ## Installation
